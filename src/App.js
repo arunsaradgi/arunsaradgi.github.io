@@ -1,28 +1,34 @@
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Home from "./components/Home";
-import LoadingPage from "./components/LoadingPage";
 import NavBar from "./components/NavBar";
-import Projects from "./components/Projects";
+import Home from "./components/Home";
+import Marquee from "./components/Marquee";
+import WhatIDo from "./components/WhatIDo";
+import About from "./components/About";
+import Experience from "./components/Experience";
 import Skills from "./components/Skills";
-import SocialLinks from "./components/SocialLinks";
-import useReady from "./components/useReady";
-import { ChakraProvider } from "@chakra-ui/react";
+import Projects from "./components/Projects";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import Cursor from "./components/Cursor";
+import Background from "./components/Background";
 
 function App() {
-  const { ready } = useReady(3800);
   return (
-    <ChakraProvider>
-      <div>
+    <>
+      <Background />
+      <Cursor />
+      <div className="relative z-10">
         <NavBar />
         <Home />
+        <Marquee />
+        <WhatIDo />
         <About />
+        <Experience />
         <Skills />
         <Projects />
         <Contact />
-        <SocialLinks />
+        <Footer />
       </div>
-    </ChakraProvider>
+    </>
   );
 }
 

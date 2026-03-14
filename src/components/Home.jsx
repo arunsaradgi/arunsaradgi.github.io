@@ -1,82 +1,87 @@
-import React from "react";
-import HeroImage from "../assets/heroImage.jpg";
-import { GoMarkGithub } from "react-icons/go";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { FaGithub, FaLinkedin, FaArrowDown } from "react-icons/fa";
+import { Link } from "react-scroll";
+import { useEffect, useState } from "react";
+import useFadeIn from "./useFadeIn";
+
+const roles = ["Software Engineer", "React Specialist", "Performance Engineer", "Frontend Architect", "MERN Stack Developer"];
+
+const Typewriter = () => {
+  const [idx, setIdx] = useState(0);
+  const [text, setText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  useEffect(() => {
+    const current = roles[idx]; let t;
+    if (!deleting && text.length < current.length) t = setTimeout(() => setText(current.slice(0, text.length + 1)), 80);
+    else if (!deleting && text.length === current.length) t = setTimeout(() => setDeleting(true), 2000);
+    else if (deleting && text.length > 0) t = setTimeout(() => setText(current.slice(0, text.length - 1)), 45);
+    else { setDeleting(false); setIdx((i) => (i + 1) % roles.length); }
+    return () => clearTimeout(t);
+  }, [text, deleting, idx]);
+  return <span className="text-red-400">{text}<span className="animate-pulse">|</span></span>;
+};
 
 const Home = () => {
-  useEffect(() => {
-    AOS.init({ delay: 100 });
-  }, []);
+  useFadeIn();
   return (
-    <div
-      name="home"
-      className="max-w-screen md:w-full  mx-auto pt-10 md:pt-28 bg-gradient-to-b from-black via-black to-gray-800  "
-    >
-      <div className="max-w-screen md:max-w-screen-lg  mx-auto grid lg:grid-cols-2 items-center">
-        <div
-          className="px-8 py-12 max-w-lg mx-auto sm:max-w-xl lg:px-12 lg:py-24 lg:max-w-full"
-          data-aos="fade-right"
-        >
-          <h2 className="text-3xl sm:text-5xl font-bold text-white">
-            I'm <br />{" "}
-            <span className=" text-blue-400 animate-none md:animate-pulse z-0 ">
-              Arun Saradgi
-            </span>
-            <br /> Full Stack Web Developer
-          </h2>
-          <p className="text-gray-500 text-xl py-4 font-medium max-w-screen-sm">
-            Experienced full stack web developer proficient in front-end and
-            back-end technologies. Expertise in HTML, CSS, JavaScript, React,
-            Redux, Node. Committed in delivering high-quality, user-centric web
-            applications.
+    <section name="home" className="relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden">
+      {/* Red glow orbs */}
+      <div className="absolute top-1/3 -left-48 w-[500px] h-[500px] bg-red-900/15 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-1/3 -right-48 w-[400px] h-[400px] bg-red-900/10 rounded-full blur-[150px] pointer-events-none" />
+
+      <div className="relative w-full max-w-4xl mx-auto px-6 z-10 text-center">
+        <div className="fade-in">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-600/25 bg-red-600/8 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+            <span className="text-sm text-red-400 font-medium tracking-wide">Available for opportunities</span>
+          </div>
+
+          <h1 className="text-7xl sm:text-8xl lg:text-[9rem] font-black leading-none tracking-tighter hero-gradient">
+            Arun<br />Saradgi
+          </h1>
+
+          <div className="mt-6 h-10 flex items-center justify-center">
+            <span className="text-xl text-[#666] font-light"><Typewriter /></span>
+          </div>
+
+          <p className="mt-6 text-lg text-[#aaa] max-w-lg mx-auto leading-relaxed">
+            4+ years crafting performant web apps at{" "}
+            <span className="text-white font-medium">Saranyu Technologies</span>.
+            Shipped products to{" "}
+            <span className="text-red-400 font-medium">90k+ active users</span>.
           </p>
 
-          <div className="max-w-screen-lg mx-auto ">
-            <div
-              className="max-w-screen-sm flex justify-center items-center space-x-8"
-              data-aos="fade-up"
-            >
-              <div>
-                <a href="https://github.com/arunsaradgi" target="_blank">
-                  <GoMarkGithub size="38px" color="white" />
-                </a>
-              </div>
-              <div>
-                <a
-                  href="https://www.linkedin.com/in/arunsaradgi/"
-                  target="_blank"
-                >
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
-                    width="38px"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div>
-                <a
-                  href="https://drive.google.com/file/d/1tRkUXlOCqF9ENZZH3wk5JbYAcPkKrTU0/view?usp=sharing"
-                  smooth
-                  target="_blank"
-                  className="group text-white w-fit px-6 py-2 my-2 text-sm overflow-hidden flex items-center rounded-md bg-gradient-to-r from-orange-400 to-green-500 cursor-pointer md:py-3"
-                >
-                  SEE MY RESUME
-                </a>
-              </div>
+          <div className="mt-10 flex items-center justify-center gap-4 flex-wrap">
+            <Link to="projects" smooth duration={800}
+              className="inline-flex items-center gap-2 bg-red-600 text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-red-500 transition-all duration-200 cursor-pointer shadow-lg shadow-red-900/40">
+              View Work
+            </Link>
+            <Link to="contact" smooth duration={800}
+              className="inline-flex items-center gap-2 border border-white/10 text-[#ccc] text-sm font-medium px-6 py-3 rounded-full hover:border-red-600/40 hover:text-white transition-all duration-200 cursor-pointer">
+              Get in Touch
+            </Link>
+            <div className="flex items-center gap-4">
+              <a href="https://github.com/arunsaradgi" target="_blank" rel="noreferrer" className="text-[#444] hover:text-white transition-colors duration-200"><FaGithub size={20} /></a>
+              <a href="https://www.linkedin.com/in/arunsaradgi/" target="_blank" rel="noreferrer" className="text-[#444] hover:text-white transition-colors duration-200"><FaLinkedin size={20} /></a>
             </div>
           </div>
         </div>
-        <img
-          className="mx-auto rounded-2xl w-8/12 object-cover object-center md:w-11/12  lg:w-11/12 "
-          src={HeroImage}
-          alt="logo"
-          data-aos="fade-left"
-        />
+
+        <div className="mt-16 pt-8 border-t border-white/5 grid grid-cols-3 gap-8 fade-in">
+          {[["4+", "Years Exp."], ["90k+", "Users Reached"], ["30%", "Dev Time Saved"]].map(([num, label]) => (
+            <div key={label}>
+              <p className="text-2xl font-bold text-red-500">{num}</p>
+              <p className="text-sm text-[#999] mt-1">{label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 fade-in flex justify-center">
+          <Link to="about" smooth duration={800} className="inline-flex items-center gap-2 text-xs text-[#777] hover:text-red-400 cursor-pointer transition-colors duration-200">
+            <FaArrowDown size={12} /> Scroll down
+          </Link>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
